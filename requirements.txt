@@ -30,3 +30,4 @@ addict
 yapf
 pyyaml
 easydict
+regex
