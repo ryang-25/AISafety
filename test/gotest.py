@@ -5,9 +5,6 @@ import torch
 import yaml
 from easydict import EasyDict
 
-import sys
-import os
-sys.path.append("{}/../".format(os.path.dirname(os.path.realpath(__file__))))
 from EvalBox.Analysis.Rebust_Eval import Rebust_Attack, Rebust_Evaluate, Save_Eval_Visualization_Result
 from utils.config import Config
 from utils.io_utils import SaveWithJson_Result

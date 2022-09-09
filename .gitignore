@@ -1,2 +1,8 @@
-__pycache__
-*.pyc
+**/__pycache__/
+**/*.pyc
+
+__MACOSX__/
+.DS_Store
+
+/data/
+/log/
