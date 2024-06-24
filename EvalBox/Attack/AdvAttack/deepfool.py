@@ -10,7 +10,6 @@
 import numpy as np
 import torch
 from torch.autograd import Variable
-from torch.autograd.gradcheck import zero_gradients
 
 from EvalBox.Attack.AdvAttack.attack import Attack
 
@@ -77,7 +76,7 @@ class DEEPFOOL(Attack):
                 grad_orig = var_pert_x.grad.data.cpu().numpy().copy()
 
                 for k in range(1, num_classes):
-                    zero_gradients(var_pert_x)
+                    var_pert_x.zero_grad()
 
                     fs[0, I[k]].backward(retain_graph=True)
                     cur_grad = var_pert_x.grad.data.cpu().numpy().copy()
@@ -110,7 +109,7 @@ class DEEPFOOL(Attack):
                 grad_orig = var_pert_x.grad.data.cpu().numpy().copy()
 
                 for k in range(1, num_classes):
-                    zero_gradients(var_pert_x)
+                    var_pert_x.zero_grad()
 
                     fs[0, I[k]].backward(retain_graph=True)
                     cur_grad = var_pert_x.grad.data.cpu().numpy().copy()

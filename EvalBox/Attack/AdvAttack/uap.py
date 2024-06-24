@@ -12,7 +12,6 @@ import os
 import torch
 import cv2
 from torch.autograd import Variable
-from torch.autograd.gradcheck import zero_gradients
 import torchvision.transforms as transforms
 import torchvision
 from torch.utils.data.sampler import SubsetRandomSampler

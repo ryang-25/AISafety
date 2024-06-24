@@ -10,7 +10,6 @@
 import numpy as np
 import torch
 from torch.autograd import Variable
-from torch.autograd.gradcheck import zero_gradients
 from torch import optim
 
 # from .utils import MarginalLoss

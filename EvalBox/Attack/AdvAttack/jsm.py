@@ -10,7 +10,6 @@
 import numpy as np
 import torch
 from torch.autograd import Variable
-from torch.autograd.gradcheck import zero_gradients
 
 from EvalBox.Attack.AdvAttack.attack import Attack
 
@@ -60,7 +59,7 @@ class JSM(Attack):
         mask = torch.zeros(output.shape).to(device)
         for i in range(output.shape[1]):
             mask[:, i] = 1
-            zero_gradients(input)
+            input.zero_grad()
             output.backward(mask, retain_graph=True)
             # copy the derivative to the target place
             jacobian[i] = input._grad.squeeze().view(-1, num_features).clone()
