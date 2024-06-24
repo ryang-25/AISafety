@@ -23,7 +23,7 @@
   Python环境要求
 
   ```
-  Python 3.6.5及以上
+  Python 3.10及以上
   ```
 
   克隆本项目并安装依赖：
@@ -33,6 +33,13 @@
   cd AISafety/
   pip install requirements.txt
   ```
+  如果依赖已经过时：
+  
+  ```
+  pip install pur
+  pur
+  ```
+  可能也需要在代码修改
 
   #### STEP 2. 数据准备
 
