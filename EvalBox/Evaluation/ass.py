@@ -11,7 +11,7 @@ import numpy as np
 import torch
 import torch.utils.data as Data
 from torch.autograd import Variable
-from skimage.measure import compare_ssim as SSIM
+from skimage.metrics import structural_similarity as SSIM
 from EvalBox.Evaluation.evaluation import Evaluation
 from EvalBox.Evaluation.evaluation import MIN_COMPENSATION
 
