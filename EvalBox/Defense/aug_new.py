@@ -31,7 +31,7 @@ See Appendix C of https://arxiv.org/pdf/1805.09501.
 
 import os
 import torch
-from torchvision import transforms
+from torchvision.transforms import v2
 
 from utils.Defense_utils import adjust_learning_rate
 
@@ -78,15 +78,19 @@ class AugMix(Defense):
     def train(self, train_loader=None, epoch=None):
         device = self.device
 
-        transform = transforms.AugMix(interpolation=transforms.InterpolationMode.BILINEAR)
+        transforms = v2.Compose([
+            v2.ToDtype(torch.uint8, scale=True),
+            v2.AugMix(interpolation=v2.InterpolationMode.BILINEAR),
+            v2.ToDtype(torch.float32, scale=True),
+            v2.Normalize(mean=[0.5]*3, std=[0.5]*3)
+        ])
 
         for i, (images, labels) in enumerate(train_loader):
             nat_images = images.to(device)
             nat_labels = labels.to(device)
 
             self.model.eval()
-            aug_images = transforms.functional.convert_image_dtype(
-                transform(transforms.functional.convert_image_dtype(nat_images, torch.uint8)), torch.float32)
+            aug_images = transforms(nat_images)
 
             logits_nat = self.model(nat_images)
             loss_nat = self.criterion(logits_nat, nat_labels)

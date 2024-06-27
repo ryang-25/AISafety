@@ -16,7 +16,8 @@ import torchvision
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision import datasets, transforms
+from torchvision import datasets
+from torchvision.transforms import v2
 import PIL.Image as Image
 import  matplotlib.pyplot as plt
 sys.path.append('{}/'.format(os.path.dirname(os.path.realpath(__file__))))
@@ -257,10 +258,10 @@ class Evaluation_Base(object):
             dataset = MyTensorDataset(sample_path, label_path, transform)
         # 常见图像格式的
         elif self.data_type == "ImageCustom":
-            mytransform = transforms.Compose([
-                transforms.Scale(image_size),
-                transforms.CenterCrop((min(self.crop_image_size[0], image_size[0]), min(self.crop_image_size[1], image_size[1]))),
-                transforms.ToTensor()
+            mytransform = v2.Compose([
+                v2.Resize(image_size),
+                v2.CenterCrop((min(self.crop_image_size[0], image_size[0]), min(self.crop_image_size[1], image_size[1]))),
+                v2.ToTensor()
             ])
             dataset = EvalDataset(root_path = sample_path, label_path = label_path, origin_path = None, origin_label_path = None,
                                   data_type = "ImageNet",
@@ -268,21 +269,21 @@ class Evaluation_Base(object):
                                   ratio = 1.0)
         else:
             # 默认归一化的
-            normalize = transforms.Normalize(mean = [0.485, 0.456, 0.406],
+            normalize = v2.Normalize(mean = [0.485, 0.456, 0.406],
                                              std = [0.229, 0.224, 0.225])
-            mytransform = transforms.Compose([
-                transforms.Scale(image_size),
-                transforms.CenterCrop((min(self.crop_image_size[0], image_size[0]), min(self.crop_image_size[1], image_size[1]))),
-                transforms.ToTensor(),
+            mytransform = v2.Compose([
+                v2.Resize(image_size),
+                v2.CenterCrop((min(self.crop_image_size[0], image_size[0]), min(self.crop_image_size[1], image_size[1]))),
+                v2.ToTensor(),
                 normalize
             ])
             if (len(self.data_type) == 2 and self.data_type[0] == "ImageNet") and self.data_type[1] == "withoutNormalize":
-                mytransform = transforms.Compose([
-                    transforms.Scale(image_size),
-                    transforms.CenterCrop((min(self.crop_image_size[0], image_size[0]), min(self.crop_image_size[1], image_size[1]))),
-                    transforms.ToTensor(),
+                mytransform = v2.Compose([
+                    v2.Resize(image_size),
+                    v2.CenterCrop((min(self.crop_image_size[0], image_size[0]), min(self.crop_image_size[1], image_size[1]))),
+                    v2.ToTensor(),
                 ])
-            # mytransform = transforms.Compose([transforms.ToTensor()])  # transform [0, 255] to [0, 1]
+            # mytransform = v2.Compose([v2.ToTensor()])  # transform [0, 255] to [0, 1]
             dataset = EvalDataset(root_path = sample_path, label_path = label_path, origin_path = None, origin_label_path = None,
                                   data_type = "ImageNet",
                                   image_size = image_size, transform = mytransform,

@@ -2,7 +2,7 @@ import torch
 from torch.autograd import Variable
 from torch.autograd import Function
 from torchvision import models
-import torchvision.transforms as transforms
+from torchvision.transforms import v2
 from torchvision import utils
 import torch.utils.data as Data
 import cv2
@@ -128,9 +128,9 @@ if __name__ == '__main__':
     visualizer = NeuronVisualizer(model = model, model_name = "ResNet2", layer_list = [], img_size = (32, 32))
     dataset = []
     cln_xs = []
-    transform = transforms.Compose(
-        [transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+    transform = v2.Compose(
+        [v2.ToTensor(),
+        v2.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225])])
     for i in range(2):
         im = cv2.imread('../../Datasets/cifar_test/flip_data/' + str(i) + '.jpg')

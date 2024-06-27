@@ -1,5 +1,5 @@
 import numpy as np
-import torchvision.transforms as transforms
+from torchvision.transforms import v2
 import torchvision
 import torch
 from torch.utils.data.sampler import SubsetRandomSampler
@@ -27,8 +27,8 @@ def get_ImageNet_train_validate_loader(
     :return:
     """
 
-    transform = transforms.Compose(
-        [transforms.Scale(256), transforms.CenterCrop(224), transforms.ToTensor()]
+    transform = v2.Compose(
+        [v2.Resize(256), v2.CenterCrop(224), v2.ToTensor()]
     )
 
     # dataset = EvalDataset(sample_path, label_path, "ImageNet", 224, transform=transform,ratio=1.0)
@@ -90,20 +90,20 @@ def get_cifar10_train_validate_loader(
     # training dataset's transform
     print("root path: ", dir_name)
     if augment is True:
-        train_transform = transforms.Compose(
+        train_transform = v2.Compose(
             [
-                # transforms.RandomCrop(32),
-                # transforms.RandomCrop(32, padding=4),
-                transforms.RandomAffine(degrees=0, translate=(0.1, 0.1)),
-                transforms.RandomHorizontalFlip(),
-                transforms.ToTensor(),
+                # v2.RandomCrop(32),
+                # v2.RandomCrop(32, padding=4),
+                v2.RandomAffine(degrees=0, translate=(0.1, 0.1)),
+                v2.RandomHorizontalFlip(),
+                v2.ToTensor(),
             ]
         )
     else:
-        train_transform = transforms.Compose([transforms.ToTensor()])
+        train_transform = v2.ToTensor()
 
     # validation dataset's transform
-    valid_transform = transforms.Compose([transforms.ToTensor()])
+    valid_transform = [v2.ToTensor()]
 
     # load the dataset
     train_cifar10_dataset = torchvision.datasets.CIFAR10(
@@ -161,10 +161,10 @@ def get_mnist_train_validate_loader(
     ), "the size of validation set should be in the range of [0, 1]"
 
     train_mnist_dataset = torchvision.datasets.MNIST(
-        root=dir_name, train=True, transform=transforms.ToTensor(), download=False
+        root=dir_name, train=True, transform=v2.ToTensor(), download=False
     )
     valid_mnist_dataset = torchvision.datasets.MNIST(
-        root=dir_name, train=True, transform=transforms.ToTensor(), download=False
+        root=dir_name, train=True, transform=v2.ToTensor(), download=False
     )
 
     num_train = len(train_mnist_dataset)

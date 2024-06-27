@@ -10,7 +10,7 @@ from torch.utils.data.sampler import SubsetRandomSampler, SequentialSampler
 
 import torch.utils.data as Data
 import torchvision
-from torchvision import transforms
+from torchvision.transforms import v2
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
@@ -93,12 +93,12 @@ class Rebust_Defense(Evaluation_Base):
 
     def gen_dataloader_train(self):
         # 这里用的是我们自己已经准备的一些已知网络结构的模型
-        transform = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Pad(4),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomCrop(32),
-            transforms.ToTensor()
+        transform = v2.Compose([
+            v2.ToPILImage(),
+            v2.Pad(4),
+            v2.RandomHorizontalFlip(),
+            v2.RandomCrop(32),
+            v2.ToTensor()
         ])
         dataloader, dataset = self.setting_dataset(self.Scale_ImageSize, self.sample_path, self.label_path, transform)
         return dataset

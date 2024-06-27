@@ -13,7 +13,8 @@ import torch.nn as nn
 import os
 import PIL
 from PIL import Image
-from torchvision import transforms, models
+from torchvision import models
+from torchvision.transforms import v2
 import numpy as np
 import torch
 from torch.autograd import Variable
@@ -54,7 +55,7 @@ class PA(Attack):
         self.position = kwargs.get("position", "128,128")
 
     def save_patched_pic(self, adv_image, path):
-        transform = transforms.Compose([transforms.ToPILImage(mode="RGB"),])
+        transform = v2.Compose([v2.ToPILImage(mode="RGB"),])
         adv_image = transform(adv_image)
         adv_image.save(path, quality=100, sub_sampling=0)
 
@@ -75,11 +76,11 @@ class PA(Attack):
         return pad(patch)
 
     def preprocess(self, image, device):
-        trans = transforms.Compose(
+        trans = v2.Compose(
             [
-                transforms.ToPILImage(),
-                # transforms.Resize((224, 224)),
-                transforms.ToTensor(),
+                v2.ToPILImage(),
+                # v2.Resize((224, 224)),
+                v2.ToTensor(),
             ]
         )
         return trans(image.cpu()).to(device)
@@ -112,7 +113,7 @@ class PA(Attack):
         # print(copy_xs.shape)
         for i, image_xs in enumerate(var_xs):
             patch = Image.open(self.patch_path)
-            patch = transforms.ToTensor()(patch)
+            patch = v2.ToTensor()(patch)
 
             image_h, image_w = image_xs.shape[1:]
 
