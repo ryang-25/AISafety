@@ -14,3 +14,4 @@ from .pat import PAT
 from .oat import OAT
 from .anp import ANP
 from .rand import RAND
+from .aug_new import AugMix

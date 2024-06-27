@@ -1,0 +1,5 @@
+<method type='AugMix'>
+<param title='dataset'>
+	<dataset>CIFAR10</dataset>
+</param>
+</method>
